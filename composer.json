@@ -1,0 +1,54 @@
+{
+    "name": "althinect/laravel-sendlk",
+    "description": "Laravel package for Send.lk SMS Gateway",
+    "keywords": [
+        "althinect",
+        "laravel-sendlk"
+    ],
+    "homepage": "https://github.com/althinect/laravel-sendlk",
+    "license": "MIT",
+    "type": "library",
+    "authors": [
+        {
+            "name": "Udam Liyanage",
+            "email": "udamsliyanage@gmail.com",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": "^7.4|^8.0",
+        "illuminate/support": "^8.0"
+    },
+    "require-dev": {
+        "orchestra/testbench": "^6.0",
+        "phpunit/phpunit": "^9.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Althinect\\LaravelSendlk\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Althinect\\LaravelSendlk\\Tests\\": "tests"
+        }
+    },
+    "scripts": {
+        "test": "vendor/bin/phpunit",
+        "test-coverage": "vendor/bin/phpunit --coverage-html coverage"
+
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Althinect\\LaravelSendlk\\LaravelSendlkServiceProvider"
+            ],
+            "aliases": {
+                "LaravelSendlk": "Althinect\\LaravelSendlk\\LaravelSendlkFacade"
+            }
+        }
+    }
+}
