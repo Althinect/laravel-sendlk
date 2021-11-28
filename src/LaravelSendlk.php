@@ -2,6 +2,7 @@
 
 namespace Althinect\LaravelSendlk;
 
+use Althinect\LaravelSendlk\Models\MessageLog;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Http\Client\Response;
 
@@ -11,12 +12,15 @@ class LaravelSendlk
     public function send($phoneNumbers, $message)
     {
         if (!is_array($phoneNumbers)) {
-            return $this->serializeResponse(true, 'phone numbers variable must be an array!');
+            $response = $this->serializeResponse(true, 'phone numbers variable must be an array!');
+            $this->logMessage(false, null, $response);
+            return $response;
         }
 
         $phoneNumbersValid = $this->validatePhoneNumbers($phoneNumbers);
 
         if (!is_bool($phoneNumbersValid)) {
+            $this->logMessage(false, null, $phoneNumbersValid);
             return $phoneNumbersValid;
         }
 
@@ -31,7 +35,10 @@ class LaravelSendlk
             $responseError = $this->inspectResponse($response);
 
             if (!is_bool($responseError)) {
+                $this->logMessage(false, $phoneNumbers[$x], $response->body());
                 return $responseError;
+            } else {
+                $this->logMessage(true, $phoneNumbers[$x], $response->body());
             }
         }
         
@@ -65,5 +72,16 @@ class LaravelSendlk
             return json_encode(array("status" => "error", "message" => $message));
         }
         return json_encode(array("status" => "success", "message" => $message));
+    }
+
+    private function logMessage($success, $phoneNumber, $responseBody)
+    {
+        $log = new MessageLog;
+
+        $log->success = $success;
+        $log->phone_number = $phoneNumber;
+        $log->api_response = $responseBody;
+
+        $log->save();
     }
 }
