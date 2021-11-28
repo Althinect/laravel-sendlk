@@ -25,28 +25,35 @@ class LaravelSendlk
 
         $phoneNumbersValid = $this->validatePhoneNumbers($phoneNumbers);
 
-        if (!$phoneNumbersValid) {
+        if (!is_bool($phoneNumbersValid)) {
             return $phoneNumbersValid;
         }
 
-        if (count($phoneNumbers) == 1) {
+        for ($x=0; $x<count($phoneNumbers); $x++) 
+        {
             $response = Http::withToken(config('laravel-sendlk.api_token'))->post('https://sms.send.lk/api/v3/sms/send', [
-                'recipient' => $phoneNumbers[0],
+                'recipient' => $phoneNumbers[$x],
                 'sender_id' => config('laravel-sendlk.sender_id'),
                 'message' => $message,
             ]);
-        } else {
-            for ($x=0; $x<count($phoneNumbers); $x++) 
-            {
-                $response = Http::withToken(config('laravel-sendlk.api_token'))->post('https://sms.send.lk/api/v3/sms/send', [
-                    'recipient' => $phoneNumbers[$x],
-                    'sender_id' => config('laravel-sendlk.sender_id'),
-                    'message' => $message,
-                ]);
+
+            $responseError = $this->inspectResponse($response);
+
+            if (!is_bool($responseError)) {
+                return $responseError;
             }
         }
-
+        
         return $this->serializeResponse(false, 'Message(s) sent successfully');
+    }
+
+    private function inspectResponse(Response $response) 
+    {
+        if ($response->failed() || $response->serverError() || $response->clientError()) {
+            return $this->serializeResponse(true, $response->body());
+        }
+
+        return true;
     }
 
     private function validatePhoneNumbers($numbers)
