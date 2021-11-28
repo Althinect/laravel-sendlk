@@ -8,15 +8,6 @@ use Illuminate\Http\Client\Response;
 class LaravelSendlk
 {
 
-    private $statusCode;
-    
-
-    public function __construct()
-    {
-        $this->statusCode = 0;
-        
-    }
-
     public function send($phoneNumbers, $message)
     {
         if (!is_array($phoneNumbers)) {
