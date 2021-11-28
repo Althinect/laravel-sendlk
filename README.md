@@ -18,6 +18,12 @@ You can install the package via composer:
 composer require althinect/laravel-sendlk
 ```
 
+After installation. Run:
+
+```bash
+php artisan vendor:publish --provider="Althinect\LaravelSendlk\LaravelSendlkServiceProvider" --tag=config
+```
+
 ## Usage
 
 ```php
