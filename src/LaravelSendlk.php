@@ -3,6 +3,7 @@
 namespace Althinect\LaravelSendlk;
 
 use Illuminate\Support\Facades\Http;
+use Illuminate\Http\Client\Response;
 
 class LaravelSendlk
 {
@@ -19,7 +20,13 @@ class LaravelSendlk
     public function send($phoneNumbers, $message)
     {
         if (!is_array($phoneNumbers)) {
-            return 'phone numbers variable not an array';
+            return $this->serializeResponse(true, 'phone numbers variable must be an array!');
+        }
+
+        $phoneNumbersValid = $this->validatePhoneNumbers($phoneNumbers);
+
+        if (!$phoneNumbersValid) {
+            return $phoneNumbersValid;
         }
 
         if (count($phoneNumbers) == 1) {
@@ -39,7 +46,7 @@ class LaravelSendlk
             }
         }
 
-        $this->statusCode = $response->status();
+        return $this->serializeResponse(false, 'Message(s) sent successfully');
     }
 
     public function messageStatus() 
@@ -49,5 +56,25 @@ class LaravelSendlk
         } 
 
         return false;
+    }
+
+    private function validatePhoneNumbers($numbers)
+    {
+        foreach ($numbers as $number)
+        {
+            if (strlen($number) < 10) {
+                return $this->serializeResponse(true, "Phone number: $number is not valid!");
+            }
+        }
+
+        return true;
+    }
+
+    private function serializeResponse(bool $error, string $message)
+    {
+        if ($error) {
+            return json_encode(array("status" => "error", "message" => $message));
+        }
+        return json_encode(array("status" => "success", "message" => $message));
     }
 }
