@@ -16,13 +16,24 @@ class LaravelSendlk
         
     }
 
-    public function send($phoneNumber, $message)
+    public function send($phoneNumbers, $message)
     {
-        $response = Http::withToken(config('laravel-sendlk.api_token'))->post('https://sms.send.lk/api/v3/sms/send', [
-            'recipient' => $phoneNumber,
-            'sender_id' => config('laravel-sendlk.sender_id'),
-            'message' => $message,
-        ]);
+        if (count($phoneNumbers) == 1) {
+            $response = Http::withToken(config('laravel-sendlk.api_token'))->post('https://sms.send.lk/api/v3/sms/send', [
+                'recipient' => $phoneNumbers[0],
+                'sender_id' => config('laravel-sendlk.sender_id'),
+                'message' => $message,
+            ]);
+        } else {
+            for ($x=0; $x<count($phoneNumbers); $x++) 
+            {
+                $response = Http::withToken(config('laravel-sendlk.api_token'))->post('https://sms.send.lk/api/v3/sms/send', [
+                    'recipient' => $phoneNumbers[$x],
+                    'sender_id' => config('laravel-sendlk.sender_id'),
+                    'message' => $message,
+                ]);
+            }
+        }
 
         $this->statusCode = $response->status();
     }
