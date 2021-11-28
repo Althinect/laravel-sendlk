@@ -18,6 +18,10 @@ class LaravelSendlk
 
     public function send($phoneNumbers, $message)
     {
+        if (!is_array($phoneNumbers)) {
+            return 'phone numbers variable not an array';
+        }
+
         if (count($phoneNumbers) == 1) {
             $response = Http::withToken(config('laravel-sendlk.api_token'))->post('https://sms.send.lk/api/v3/sms/send', [
                 'recipient' => $phoneNumbers[0],
