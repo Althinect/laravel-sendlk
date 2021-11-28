@@ -49,15 +49,6 @@ class LaravelSendlk
         return $this->serializeResponse(false, 'Message(s) sent successfully');
     }
 
-    public function messageStatus() 
-    {
-        if ($this->statusCode == 200) {
-            return true;
-        } 
-
-        return false;
-    }
-
     private function validatePhoneNumbers($numbers)
     {
         foreach ($numbers as $number)
