@@ -2,6 +2,7 @@
 
 namespace Althinect\LaravelSendlk;
 
+use Althinect\LaravelSendlk\Console\PruneLogs;
 use Illuminate\Support\ServiceProvider;
 
 class LaravelSendlkServiceProvider extends ServiceProvider
@@ -40,7 +41,9 @@ class LaravelSendlkServiceProvider extends ServiceProvider
             ], 'lang');*/
 
             // Registering package commands.
-            // $this->commands([]);
+            $this->commands([
+                PruneLogs::class,
+            ]);
         }
     }
 
