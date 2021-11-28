@@ -5,7 +5,7 @@
         'type' => 'library',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
-        'reference' => 'ea2a9d6015eaf141566833c6554fccd7d50f179a',
+        'reference' => 'a593856c3c2eb48b81bfbdabba4b840b4b92dedc',
         'name' => 'althinect/laravel-sendlk',
         'dev' => true,
     ),
@@ -16,7 +16,7 @@
             'type' => 'library',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
-            'reference' => 'ea2a9d6015eaf141566833c6554fccd7d50f179a',
+            'reference' => 'a593856c3c2eb48b81bfbdabba4b840b4b92dedc',
             'dev_requirement' => false,
         ),
         'brick/math' => array(
