@@ -5,7 +5,10 @@
 ![GitHub Actions](https://github.com/althinect/laravel-sendlk/actions/workflows/main.yml/badge.svg)
 
 This is a package for integrating Send.lk (https://send.lk) with a Laravel application. The packages supports custom configurations for credentials 
-and logs for all sent messages. Moreover, these message logs can be pruned with a command which can be set up with scheduler for scheduled pruning.
+and logs for all sent messages. Moreover, these message logs can be pruned with a command which can be set up with scheduler for scheduled pruning. 
+
+NOTE - This package is designed to be used for internal purposes of Althinect. However, you're free to use or modify the codebase. That being said, use at your
+own discretion as the package might have breaking changes in the future.
 
 ## Installation
 
