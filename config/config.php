@@ -1,8 +1,10 @@
 <?php
 
 /*
- * You can place your custom package configuration in here.
+ * You can place your API Token and Sender ID here.
  */
-return [
 
+return [
+    'api_token' => '00000000000000',
+    'sender_id' => 'custom-sender',
 ];
